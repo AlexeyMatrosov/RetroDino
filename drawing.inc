@@ -2,12 +2,13 @@
 ; Drawing Functions ;
 ;===================;
 
-SPRITE_HEIGHT = 8
+SPRITE_WIDTH = 16
+SPRITE_HEIGHT = 16
 
 ;---------------------------------------------------------------------------
 ; Draw Sprite 
 ;---------------------------------------------------------------------------
-; draw a 8 x SPRITE_HEIGHT sprite from a data pointer
+; draw a SPRITE_WIDTH x SPRITE_HEIGHT sprite from a data pointer
 ; r1 = color
 ; r2 = x (to screen)
 ; r3 = y (to screen)
@@ -42,10 +43,10 @@ sprite.draw.addressLoop.end:
 	lr	Ql, A
 	lr	DC, Q
 	
-	; load the sprite size (8 x SPRITE_HEIGHT)
-	lis	8
+	; load the sprite size (SPRITE_WIDTH x SPRITE_HEIGHT)
+	li	SPRITE_WIDTH
 	lr	5, A
-	lis	SPRITE_HEIGHT
+	li	SPRITE_HEIGHT
 	lr	6, A
 	; load the position
 	lr	A, 3
