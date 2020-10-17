@@ -56,7 +56,7 @@ sprite.draw.addressLoop.end:
 	; load the colors
 	lr	A, 1
 	lr	2, A
-	li	clear
+	li	$c0
 	lr	1, A
 
 	; draw the sprite

@@ -14,10 +14,13 @@ COLOR_GREEN 		= $00
 COLOR_BLUE 			= $80
 COLOR_BACKGROUND	= $c0
 
-SMALL_DELAY 		= 10 
+SMALL_DELAY 		= 30 
 clear		=	$FF
 
-X_REG	=	060		; #48
+Y_START_POSITION = 25
+
+X_REG			=	060		; #48
+DINO_STATE_REG 	= 	061		; #49
 	
 	org $800
 	
@@ -44,40 +47,40 @@ mainloop:
 	ins	1
 	com							; un-invert port data
 	ni	%00000011				; only keep push/pull
-	bz	_nottouched
+	bz	_endloop
 	
 	ni %00000010
 	bnz _leftclicked
 	
-	pi clear_player
-	
+	; Right clicked
 	SETISAR X_REG
 	lr A, S
 	inc
 	lr S, A
 	
-	pi draw_player
-	pi small_delay
-
-	jmp _nottouched	
+	jmp _endloop	
 	
 _leftclicked:
-	
-	pi clear_player
-	
+
+	; Left clicked
 	SETISAR X_REG
 	lr A, S
 	lr 2, A
 	ds 2
 	lr A, 2
 	lr S, A
-	;ds S
+
+	jmp _endloop
+	
+_endloop:
+	
+	SETISAR DINO_STATE_REG
+	lr A, S
+	inc
+	lr S, A
 	
 	pi draw_player
 	pi small_delay
-
-	jmp _nottouched
-_nottouched:
 	
 	jmp mainloop
 	
@@ -118,7 +121,7 @@ clear_player:
 	SETISAR X_REG
 	lr A, S			; Start X
 	lr 2, A
-	li 20
+	li Y_START_POSITION
 	lr 3, A			; Start Y
 	li 0
 	lr 4, A			; "Clear" dino
@@ -135,10 +138,14 @@ draw_player:
 	SETISAR X_REG
 	lr A, S			; Start X
 	lr 2, A
-	li 20
+	li Y_START_POSITION
 	lr 3, A			; Start Y
-	li 1
-	lr 4, A			; "Default" dino
+	
+	SETISAR DINO_STATE_REG
+	lr A, S
+	ni %00000001
+	inc
+	lr 4, A			; Select Dino sprite
 	
 	pi sprite.draw
 	
