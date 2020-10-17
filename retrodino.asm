@@ -37,7 +37,8 @@ cartridgeEntry:
 	SETISAR X_REG
 	lr S, A
 	
-	pi draw_player
+	pi drawGround				; Draw game ground
+	pi drawSky					; Draw game sky
 	
 mainloop:
 
@@ -167,6 +168,69 @@ _small_delay:
 	bnz _small_delay.next
 	
 	pop
+	
+drawSky:
+	lr k, p
+	
+	li 44
+	lr 5, A
+
+_drawSky:
+	lr A, 5
+	lr 3, A
+
+	li 0
+	lr 1, A
+	
+	li 125
+	lr 2, A
+	
+	pi point.draw
+	
+	li $ff
+	lr 1, A
+	
+	li 126
+	lr 2, A
+	
+	pi point.draw
+	
+	ds 5
+	bnz _drawSky
+	
+	pk
+	
+	
+drawGround:
+	lr k, p
+	
+	li 64
+	lr 5, A
+
+_drawGround:
+	lr A, 5
+	lr 3, A
+
+	li 0
+	lr 1, A
+	
+	li 125
+	lr 2, A
+	
+	pi point.draw
+	
+	li 0
+	lr 1, A
+	
+	li 126
+	lr 2, A
+	
+	pi point.draw
+	
+	ds 5
+	bnz _drawGround
+	
+	pk
 
 ;---------------------------------------------------------------------------
 	include "drawing.inc"	; basic drawing functions

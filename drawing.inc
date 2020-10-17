@@ -6,6 +6,42 @@ SPRITE_WIDTH = 16
 SPRITE_HEIGHT = 16
 
 ;---------------------------------------------------------------------------
+; Draw Point 
+;---------------------------------------------------------------------------
+; plot out a single point on the screen
+; r1 = color
+; r2 = x
+; r3 = y
+
+point.draw:
+	; set the color using r1
+	lr	A, 1
+	outs	1
+
+	; set the column using r2
+	lr	A, 2
+	com
+	outs	4
+
+	; set the row using r3
+	lr	A, 3
+	com
+	outs	5
+
+	; transfer data to the screen memory
+
+	li	$60
+	outs	0
+	li	$50
+	outs	0
+	lis	6						; a delay
+_plotDelay:	
+	ai	$ff
+	bnz	_plotDelay
+
+	pop							; return from the subroutine
+
+;---------------------------------------------------------------------------
 ; Draw Sprite 
 ;---------------------------------------------------------------------------
 ; draw a SPRITE_WIDTH x SPRITE_HEIGHT sprite from a data pointer
