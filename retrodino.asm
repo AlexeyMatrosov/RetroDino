@@ -84,53 +84,7 @@ _endloop:
 	pi small_delay
 	
 	jmp mainloop
-	
-	
-	; Not used
-	
-	pi sprite.draw
-	
-	li COLOR_GREEN
-	lr 1, A			; Color
-	li 20
-	lr 2, A			; Start X
-	li 20
-	lr 3, A			; Start Y
-	li 1
-	lr 4, A			; "Default" dino
-	
-	pi sprite.draw
-	
-	li COLOR_RED
-	lr 1, A			; Color
-	
-	SETISAR X_REG
-	lr A, S			; Start X
-	lr 2, A
-	li 20
-	lr 3, A			; Start Y
-	li 2
-	lr 4, A			; "Jump" dino
-	
-	pi sprite.draw
-	
-clear_player:
-	lr k, p
-	
-	li COLOR_BACKGROUND
-	lr 1, A			; Color
-	SETISAR X_REG
-	lr A, S			; Start X
-	lr 2, A
-	li Y_START_POSITION
-	lr 3, A			; Start Y
-	li 0
-	lr 4, A			; "Clear" dino
-	
-	pi sprite.draw
-	
-	pk
-	
+
 draw_player:
 	lr k, p
 	
@@ -168,71 +122,10 @@ _small_delay:
 	bnz _small_delay.next
 	
 	pop
-	
-drawSky:
-	lr k, p
-	
-	li 44
-	lr 5, A
-
-_drawSky:
-	lr A, 5
-	lr 3, A
-
-	li 0
-	lr 1, A
-	
-	li 125
-	lr 2, A
-	
-	pi point.draw
-	
-	li $ff
-	lr 1, A
-	
-	li 126
-	lr 2, A
-	
-	pi point.draw
-	
-	ds 5
-	bnz _drawSky
-	
-	pk
-	
-	
-drawGround:
-	lr k, p
-	
-	li 64
-	lr 5, A
-
-_drawGround:
-	lr A, 5
-	lr 3, A
-
-	li 0
-	lr 1, A
-	
-	li 125
-	lr 2, A
-	
-	pi point.draw
-	
-	li 0
-	lr 1, A
-	
-	li 126
-	lr 2, A
-	
-	pi point.draw
-	
-	ds 5
-	bnz _drawGround
-	
-	pk
 
 ;---------------------------------------------------------------------------
+	include "world.inc"		; world creation functions
+
 	include "drawing.inc"	; basic drawing functions
 	
 	include "graphics.inc"	; graphic data
