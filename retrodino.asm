@@ -99,7 +99,6 @@ draw_player:
 	SETISAR DINO_STATE_REG
 	lr A, S
 	ni %00000001
-	inc
 	lr 4, A			; Select Dino sprite
 	
 	pi sprite.draw
