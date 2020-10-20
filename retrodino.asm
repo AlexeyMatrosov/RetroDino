@@ -17,10 +17,8 @@ COLOR_BACKGROUND	= $c0
 SMALL_DELAY 		= 30 
 clear		=	$FF
 
-Y_START_POSITION = 25
-
-X_REG			=	060		; #48
-DINO_STATE_REG 	= 	061		; #49
+DINO_Y_REG			=	060		; #48
+DINO_STATE_REG 		= 	061		; #49
 	
 	org $800
 	
@@ -33,8 +31,8 @@ cartridgeEntry:
 	lr 3, A						; clear screen to grey
 	pi BIOS_CLEAR_SCREEN
 	
-	li 30
-	SETISAR X_REG
+	li 24
+	SETISAR DINO_Y_REG
 	lr S, A
 	
 	pi drawGround				; Draw game ground
@@ -54,7 +52,7 @@ mainloop:
 	bnz _leftclicked
 	
 	; Right clicked
-	SETISAR X_REG
+	SETISAR DINO_Y_REG
 	lr A, S
 	inc
 	lr S, A
@@ -64,7 +62,7 @@ mainloop:
 _leftclicked:
 
 	; Left clicked
-	SETISAR X_REG
+	SETISAR DINO_Y_REG
 	lr A, S
 	lr 2, A
 	ds 2
@@ -80,30 +78,62 @@ _endloop:
 	inc
 	lr S, A
 	
-	pi draw_player
-	pi small_delay
+	; Draw Dino
 	
-	jmp mainloop
-
-draw_player:
-	lr k, p
-	
-	li COLOR_GREEN
-	lr 1, A			; Color
-	SETISAR X_REG
-	lr A, S			; Start X
-	lr 2, A
-	li Y_START_POSITION
-	lr 3, A			; Start Y
+	SETISAR DINO_Y_REG
+	lr A, S			
+	lr 1, A			; Dino y
 	
 	SETISAR DINO_STATE_REG
 	lr A, S
 	ni %00000001
-	lr 4, A			; Select Dino sprite
+	lr 2, A			; Select Dino sprite
 	
-	pi sprite.draw
+	pi drawDino
 	
-	pk
+	; Draw cactus 0
+	
+	li 60
+	lr 1, A
+	
+	li 2
+	lr 2, A
+	
+	pi drawCactus
+	
+	; Draw cactus 1
+	
+	li 75
+	lr 1, A
+	
+	li 3
+	lr 2, A
+	
+	pi drawCactus
+	
+	; Draw cactus 2
+	
+	li 90
+	lr 1, A
+	
+	li 4
+	lr 2, A
+	
+	pi drawCactus
+	
+	; Draw bird
+	
+	li 70
+	lr 1, A
+	
+	li 5
+	lr 2, A
+	
+	pi drawBird
+	
+	pi small_delay
+	
+	jmp mainloop
 	
 ; uses r8, A
 small_delay:

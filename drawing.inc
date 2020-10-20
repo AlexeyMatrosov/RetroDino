@@ -2,9 +2,6 @@
 ; Drawing Functions ;
 ;===================;
 
-SPRITE_WIDTH = 16
-SPRITE_HEIGHT = 16
-
 ;---------------------------------------------------------------------------
 ; Draw Point 
 ;---------------------------------------------------------------------------
@@ -44,11 +41,13 @@ _plotDelay:
 ;---------------------------------------------------------------------------
 ; Draw Sprite 
 ;---------------------------------------------------------------------------
-; draw a SPRITE_WIDTH x SPRITE_HEIGHT sprite from a data pointer
+; draw a sprite from a data pointer
 ; r1 = color
 ; r2 = x (to screen)
 ; r3 = y (to screen)
 ; r4 = sprite number
+; r5 = width
+; r6 = height
 
 sprite.draw:
 	; blit reference:
@@ -79,11 +78,6 @@ sprite.draw.addressLoop.end:
 	lr	Ql, A
 	lr	DC, Q
 	
-	; load the sprite size (SPRITE_WIDTH x SPRITE_HEIGHT)
-	li	SPRITE_WIDTH
-	lr	5, A
-	li	SPRITE_HEIGHT
-	lr	6, A
 	; load the position
 	lr	A, 3
 	lr	4, A
