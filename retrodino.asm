@@ -27,7 +27,8 @@ cartridgeStart:
 	nop							; unused byte
 	
 cartridgeEntry:
-	li $c6						; $21 - b/w palette, fill with black. $c6 - color palette, fill with gray
+	li $c6						; $c6 - color palette, fill with gray.
+								; $d0 -- fill with green? If yes we can delete "drawGround" (~30b)
 	lr 3, A						; clear screen to grey
 	pi BIOS_CLEAR_SCREEN
 	
