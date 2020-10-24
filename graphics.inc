@@ -19,11 +19,12 @@ sprites:
 	.word	gfx.dino.left					; sprite 0
 	.word	gfx.dino.right					; sprite 1
 	
-	.word 	gfx.cactus.0					; sprite 2
-	.word 	gfx.cactus.1					; sprite 3
-	.word 	gfx.cactus.2					; sprite 4
+	.word	gfx.cactus.clear				; sprite 2
+	.word 	gfx.cactus.0					; sprite 3
+	.word 	gfx.cactus.1					; sprite 4
+	.word 	gfx.cactus.2					; sprite 5
 	
-	.word 	gfx.bird.0						; sprite 5
+	.word 	gfx.bird.0						; sprite 6
 
 ;---------------------------------------------------------------------------
 ; Dino Sprites
@@ -72,6 +73,16 @@ gfx.dino.right:
 ;---------------------------------------------------------------------------
 ; Cactus Sprites
 ;---------------------------------------------------------------------------
+
+gfx.cactus.clear:
+	.byte	%00000000
+	.byte	%00000000
+	.byte	%00000000
+	.byte	%00000000
+	.byte	%00000000
+	.byte	%00000000
+	.byte	%00000000
+	.byte	%00000000
 
 gfx.cactus.0:
 	.byte	%00001000

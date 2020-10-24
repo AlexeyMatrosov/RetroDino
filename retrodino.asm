@@ -18,6 +18,10 @@ clear		=	$FF
 
 CACTUS_X_REG		= 	050		; #40
 BIRD_X_REG			= 	051		; #41
+
+CACTUS_CLEAR_FLAG_REG	= 052	; #42
+CACTUS_CURRENT_SPRITE_REG	= 053	;#43
+
 DINO_Y_REG			=	060		; #48
 DINO_STATE_REG 		= 	061		; #49
 
@@ -28,10 +32,14 @@ CLOCK_FIELD_REG				= 064		; #52
 CLOCK_BIRD_REG				= 065		; #53
 
 ; Set real data
-TIMING_DINO_ANIMATION	= 3
+TIMING_DINO_ANIMATION	= 2
 TIMING_DINO_MOVE		= 10
-TIMING_FIELD			= 2
+TIMING_FIELD			= 1
 TIMING_BIRD				= 1
+
+CACTUS_START_POSITION 		= 110
+CACTUS_SPRITE_INDEX_START 	= 3
+CACTUS_SPRITE_INDEX_END 	= 6
 	
 	org $800
 	
@@ -61,12 +69,16 @@ cartridgeEntry:
 	SETISAR CLOCK_BIRD_REG
 	lr S, A
 	
-	li 110
+	li CACTUS_START_POSITION
 	SETISAR CACTUS_X_REG
 	lr S, A
 	
 	li 110
 	SETISAR BIRD_X_REG
+	lr S, A
+	
+	li CACTUS_SPRITE_INDEX_START
+	SETISAR CACTUS_CURRENT_SPRITE_REG
 	lr S, A
 	
 	pi drawGround				; Draw game ground
@@ -78,7 +90,31 @@ mainloop:
 	outs	0
 	outs	1
 	
+	; LOGIC
+	pi processDinoAnimationClock
+	pi processDinoMoveClock
+	pi processFieldClock
+	pi processBirdClock
+	
 	; DRAWING
+	
+	; Clear cactus if need
+	SETISAR CACTUS_CLEAR_FLAG_REG
+	lr A, S
+	ci 1
+	bnz _endclearcheck
+	
+	clr
+	lr S, A
+	
+	lr 1, A
+	
+	li 2
+	lr 2, A
+	
+	pi drawCactus
+	
+_endclearcheck:
 	
 	; Dino 
 	SETISAR DINO_Y_REG
@@ -98,7 +134,8 @@ mainloop:
 	lr A, S
 	lr 1, A
 	
-	li 2
+	SETISAR CACTUS_CURRENT_SPRITE_REG
+	lr A, S
 	lr 2, A
 	
 	pi drawCactus
@@ -109,16 +146,10 @@ mainloop:
 	lr A, S
 	lr 1, A
 	
-	li 5
+	li 6
 	lr 2, A
 	
 	;pi drawBird
-	
-	; LOGIC
-	pi processDinoAnimationClock
-	pi processDinoMoveClock
-	pi processFieldClock
-	pi processBirdClock
 	
 	;ins	1
 	;com							; un-invert port data
@@ -207,6 +238,33 @@ processFieldClock:
 	lr A, S
 	lr 1, A
 	ds 1
+	
+	; Check if cactus is out of screen
+	lr A, 1
+	ci $fa
+	bnz _cactusUpdateEnd
+	
+	SETISAR CACTUS_CLEAR_FLAG_REG
+	li 1
+	lr S, A
+	
+	SETISAR CACTUS_CURRENT_SPRITE_REG
+	lr A, S
+	inc
+	lr S, A
+	ci CACTUS_SPRITE_INDEX_END
+	bnz _cactusSpriteEnd
+	
+	li CACTUS_SPRITE_INDEX_START
+	lr S, A
+	
+_cactusSpriteEnd:
+	
+	li CACTUS_START_POSITION
+	lr 1, A
+	
+_cactusUpdateEnd:
+	SETISAR CACTUS_X_REG
 	lr A, 1
 	lr S, A
 	
