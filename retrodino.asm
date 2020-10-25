@@ -22,9 +22,10 @@ BIRD_X_REG			= 	051		; #41
 CACTUS_CLEAR_FLAG_REG	= 052	; #42
 CACTUS_CURRENT_SPRITE_REG	= 053	;#43
 
+DINO_JUMP_STATE_REG	=	054		; #44
+DINO_JUMP_COUNTER_REG	= 055	; #45
 DINO_Y_REG			=	060		; #48
 DINO_STATE_REG 		= 	061		; #49
-
 
 CLOCK_DINO_ANIMATION_REG 	= 062		; #50
 CLOCK_DINO_MOVE_REG			= 063		; #51
@@ -33,14 +34,20 @@ CLOCK_BIRD_REG				= 065		; #53
 
 ; Set real data
 TIMING_DINO_ANIMATION	= 2
-TIMING_DINO_MOVE		= 10
+TIMING_DINO_MOVE		= 1
 TIMING_FIELD			= 1
 TIMING_BIRD				= 1
 
 CACTUS_START_POSITION 		= 110
 CACTUS_SPRITE_INDEX_START 	= 3
 CACTUS_SPRITE_INDEX_END 	= 6
-	
+
+DINO_JUMP_STATE_RUN		= 0
+DINO_JUMP_STATE_UP		= 1
+DINO_JUMP_STATE_DOWN	= 2
+
+DINO_JUMP_HEIGHT		= 17
+
 	org $800
 	
 cartridgeStart:
@@ -59,6 +66,10 @@ cartridgeEntry:
 	
 	li TIMING_DINO_ANIMATION
 	SETISAR CLOCK_DINO_ANIMATION_REG
+	lr S, A
+	
+	li TIMING_DINO_MOVE
+	SETISAR CLOCK_DINO_MOVE_REG
 	lr S, A
 	
 	li TIMING_FIELD
@@ -81,6 +92,14 @@ cartridgeEntry:
 	SETISAR CACTUS_CURRENT_SPRITE_REG
 	lr S, A
 	
+	li DINO_JUMP_STATE_RUN
+	SETISAR DINO_JUMP_STATE_REG
+	lr S, A
+	
+	li 0
+	SETISAR DINO_JUMP_COUNTER_REG
+	lr S, A
+	
 	pi drawGround				; Draw game ground
 	pi drawSky					; Draw game sky
 	
@@ -89,6 +108,23 @@ mainloop:
 	clr
 	outs	0
 	outs	1
+	
+	; INPUT
+	SETISAR DINO_JUMP_STATE_REG
+	lr A, S
+	ci DINO_JUMP_STATE_RUN
+	bnz _inputChecksEnd
+	
+	ins	1
+	com							; un-invert port data
+	ni	%00001000				; top
+	bz _inputChecksEnd
+	
+	; Start jump
+	li DINO_JUMP_STATE_UP
+	lr S, A
+	
+_inputChecksEnd:
 	
 	; LOGIC
 	pi processDinoAnimationClock
@@ -200,6 +236,11 @@ processDinoAnimationClock:
 	li TIMING_DINO_ANIMATION
 	lr S, A
 	
+	SETISAR DINO_JUMP_STATE_REG
+	lr A, S
+	ci DINO_JUMP_STATE_RUN
+	bnz _processDinoAnimationClockEnd
+	
 	; Update when timer is 0
 	SETISAR DINO_STATE_REG
 	lr A, S
@@ -213,7 +254,73 @@ _processDinoAnimationClockEnd:
 ; Handle Dino moves
 ;---------------------------------------------------------------------------
 processDinoMoveClock:
-
+	SETISAR CLOCK_DINO_MOVE_REG
+	lr A, S
+	lr 1, A
+	
+	ds 1
+	lr A, 1
+	lr S, A
+	bnz _processDinoMoveClockEnd
+	
+	; Reset timing
+	li TIMING_DINO_MOVE
+	lr S, A
+	
+	; Update when timer is 0 && state != DINO_JUMP_STATE_RUN
+	SETISAR DINO_JUMP_STATE_REG
+	lr A, S
+	ci DINO_JUMP_STATE_RUN
+	bz _processDinoMoveClockEnd
+	
+	lr A, S
+	ci DINO_JUMP_STATE_UP
+	bnz __processDinoMoveShouldDown
+	
+	; Top movement
+	SETISAR DINO_Y_REG
+	lr A, S
+	lr 1, A
+	ds 1
+	lr A, 1
+	lr S, A
+	
+	SETISAR DINO_JUMP_COUNTER_REG
+	lr A, S
+	inc 
+	lr S, A
+	
+	ci DINO_JUMP_HEIGHT
+	bnz _processDinoMoveClockEnd
+	
+	SETISAR DINO_JUMP_STATE_REG
+	li DINO_JUMP_STATE_DOWN
+	lr S, A
+	
+	jmp _processDinoMoveClockEnd
+	
+__processDinoMoveShouldDown:
+	; Bottom movement
+	SETISAR DINO_Y_REG
+	lr A, S
+	inc
+	lr S, A
+	
+	SETISAR DINO_JUMP_COUNTER_REG
+	lr A, S
+	lr 1, A
+	ds 1
+	lr A, 1
+	lr S, A
+	
+	ci 0
+	bnz _processDinoMoveClockEnd
+	
+	SETISAR DINO_JUMP_STATE_REG
+	li DINO_JUMP_STATE_RUN
+	lr S, A
+	
+_processDinoMoveClockEnd:
 	pop
 	
 ;---------------------------------------------------------------------------
