@@ -185,36 +185,6 @@ _endclearcheck:
 	li 6
 	lr 2, A
 	
-	;pi drawBird
-	
-	;ins	1
-	;com							; un-invert port data
-	;ni	%00000011				; only keep push/pull
-	;bz	_endloop
-	
-	;ni %00000010
-	;bnz _leftclicked
-	
-	; Right clicked
-	;SETISAR DINO_Y_REG
-	;lr A, S
-	;inc
-	;lr S, A
-	
-	;jmp _endloop	
-	
-_leftclicked:
-
-	; Left clicked
-	;SETISAR DINO_Y_REG
-	;lr A, S
-	;lr 2, A
-	;ds 2
-	;lr A, 2
-	;lr S, A
-
-	;jmp _endloop
-	
 _endloop:
 
 	jmp mainloop
