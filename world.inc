@@ -6,7 +6,7 @@ GROUND_START 		= 44
 
 DINO_X_POSITION 	= 25
 
-CACTUS_Y_POSITION 	= 33
+CACTUS_Y_POSITION 	= 34
 
 BIRD_Y_POSITION		= 20
 
@@ -98,7 +98,7 @@ drawDino:
 	
 	; Consts
 	
-	li 	COLOR_GREEN
+	li 	COLOR_BLUE
 	lr 	1, A				; Set color
 	
 	li 	DINO_X_POSITION
@@ -139,7 +139,7 @@ drawCactus:
 	
 	; Consts
 	
-	li 	COLOR_RED
+	li 	COLOR_GREEN
 	lr 	1, A				; Set color
 	
 	li 	CACTUS_Y_POSITION

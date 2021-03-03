@@ -33,7 +33,7 @@ CLOCK_FIELD_REG				= 064		; #52
 CLOCK_BIRD_REG				= 065		; #53
 
 ; Set real data
-TIMING_DINO_ANIMATION	= 2
+TIMING_DINO_ANIMATION	= 5
 TIMING_DINO_MOVE		= 1
 TIMING_FIELD			= 1
 TIMING_BIRD				= 1
@@ -60,7 +60,7 @@ cartridgeEntry:
 	lr 3, A						; clear screen to grey
 	pi BIOS_CLEAR_SCREEN
 	
-	li 24
+	li 30
 	SETISAR DINO_Y_REG
 	lr S, A
 	
@@ -184,6 +184,7 @@ _endclearcheck:
 	
 	li 6
 	lr 2, A
+	
 	
 _endloop:
 
