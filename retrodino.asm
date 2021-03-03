@@ -60,7 +60,7 @@ cartridgeEntry:
 	lr 3, A						; clear screen to grey
 	pi BIOS_CLEAR_SCREEN
 	
-	li 30
+	li 31
 	SETISAR DINO_Y_REG
 	lr S, A
 	

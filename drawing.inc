@@ -202,7 +202,7 @@ blit.transferData:
 ;        12.5 cycles is sufficient, 12 is too little
 
 
-	lis	2
+	lis	1
 blit.savePixelDelay:
 	ai	$ff
 	bnz	blit.savePixelDelay

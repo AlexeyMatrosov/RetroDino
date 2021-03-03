@@ -3,7 +3,7 @@
 ;===========================================================================
 
 DINO_SPRITE_WIDTH 		= 8
-DINO_SPRITE_HEIGHT 		= 12
+DINO_SPRITE_HEIGHT 		= 11
 
 CACTUS_SPRITE_WIDTH 	= 8
 CACTUS_SPRITE_HEIGHT 	= 7
@@ -32,7 +32,6 @@ sprites:
 
 gfx.dino.left:
 	.byte	%00000000
-	.byte	%00000100
 	.byte	%00001110
 	.byte	%01001111
 	.byte	%10001111
@@ -46,7 +45,6 @@ gfx.dino.left:
 	
 gfx.dino.right:
 	.byte	%00000000
-	.byte	%00000100
 	.byte	%00001110
 	.byte	%01001111
 	.byte	%10001111
