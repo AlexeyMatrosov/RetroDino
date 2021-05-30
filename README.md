@@ -1,4 +1,4 @@
 # RetroDino
 Port of Google T-Rex game to Fairchild Channel F 
 
-Demo: https://www.youtube.com/watch?v=RusVEmphKWw
+Demo: https://www.youtube.com/watch?v=19KdbDYQsJM
