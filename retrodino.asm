@@ -185,6 +185,43 @@ _endclearcheck:
 	li 6
 	lr 2, A
 	
+	; COLLISION CHECKS
+	
+	; Dino x position
+	li DINO_X_POSITION
+	lr 1, A
+	
+	; Dino y position
+	SETISAR DINO_Y_REG
+	lr A, S			
+	lr 2, A
+	
+	; Dino width
+	li DINO_SPRITE_WIDTH
+	lr 3, A
+	
+	; Dino height
+	li DINO_SPRITE_HEIGHT
+	lr 4, A
+	
+	; Cactus x position
+	SETISAR CACTUS_X_REG
+	lr A, S
+	lr 5, A
+	
+	; Cactus y position
+	li CACTUS_Y_POSITION
+	lr 6, A
+	
+	; Cactus width
+	li CACTUS_SPRITE_WIDTH
+	lr 7, A
+	
+	; Cactus height
+	li CACTUS_SPRITE_HEIGHT
+	lr 8, A
+	
+	pi checkCollision
 	
 _endloop:
 
@@ -375,8 +412,10 @@ _processBirdClockEnd:
 	pop
 
 ;---------------------------------------------------------------------------
-	include "world.inc"		; world creation functions
+	include "world.inc"		 ; world creation functions
 
-	include "drawing.inc"	; basic drawing functions
+	include "drawing.inc"	 ; basic drawing functions
 	
-	include "graphics.inc"	; graphic data
+	include "graphics.inc"	 ; graphic data
+	
+	include "collisions.inc" ; helper for collision detections
