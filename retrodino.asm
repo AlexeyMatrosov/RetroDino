@@ -410,12 +410,16 @@ processBirdClock:
 	
 _processBirdClockEnd:
 	pop
+	
+;---------------------------------------------------------------------------
+; Game over handler
+;---------------------------------------------------------------------------
+handleGameOver:
+	WAIT_OF 20		; Wait around 2 seconds
+	jmp cartridgeEntry
 
 ;---------------------------------------------------------------------------
 	include "world.inc"		 ; world creation functions
-
 	include "drawing.inc"	 ; basic drawing functions
-	
 	include "graphics.inc"	 ; graphic data
-	
 	include "collisions.inc" ; helper for collision detections
