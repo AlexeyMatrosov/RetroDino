@@ -2,13 +2,6 @@
 ; Functions for World creation
 ;===========================================================================
 
-GROUND_START 		= 44
-
-DINO_X_POSITION 	= 25
-
-CACTUS_Y_POSITION 	= 34
-
-BIRD_Y_POSITION		= 20
 
 ;---------------------------------------------------------------------------
 ; Draw ground

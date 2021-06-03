@@ -2,51 +2,16 @@
 	processor F8
 	
 ;===========================================================================
-; VES Header
+; Headers
 ;===========================================================================
 
-	include	"ves.h"	
+	include	"headers/macros.h"
+	include "headers/system_const.h"
+	include "headers/game_const.h"
 	
-BIOS_CLEAR_SCREEN   = $00d0        ; uses r31
-	
-COLOR_RED 			= $40
-COLOR_GREEN 		= $00
-COLOR_BLUE 			= $80
-COLOR_BACKGROUND	= $c0
-
-clear		=	$FF
-
-CACTUS_X_REG		= 	050		; #40
-BIRD_X_REG			= 	051		; #41
-
-CACTUS_CLEAR_FLAG_REG	= 052	; #42
-CACTUS_CURRENT_SPRITE_REG	= 053	;#43
-
-DINO_JUMP_STATE_REG	=	054		; #44
-DINO_JUMP_COUNTER_REG	= 055	; #45
-DINO_Y_REG			=	060		; #48
-DINO_STATE_REG 		= 	061		; #49
-
-CLOCK_DINO_ANIMATION_REG 	= 062		; #50
-CLOCK_DINO_MOVE_REG			= 063		; #51
-CLOCK_FIELD_REG				= 064		; #52
-CLOCK_BIRD_REG				= 065		; #53
-
-; Set real data
-TIMING_DINO_ANIMATION	= 5
-TIMING_DINO_MOVE		= 1
-TIMING_FIELD			= 1
-TIMING_BIRD				= 1
-
-CACTUS_START_POSITION 		= 110
-CACTUS_SPRITE_INDEX_START 	= 3
-CACTUS_SPRITE_INDEX_END 	= 6
-
-DINO_JUMP_STATE_RUN		= 0
-DINO_JUMP_STATE_UP		= 1
-DINO_JUMP_STATE_DOWN	= 2
-
-DINO_JUMP_HEIGHT		= 17
+;===========================================================================
+; Program Entry
+;===========================================================================
 
 	org $800
 	
@@ -419,7 +384,7 @@ handleGameOver:
 	jmp cartridgeEntry
 
 ;---------------------------------------------------------------------------
-	include "world.inc"		 ; world creation functions
-	include "drawing.inc"	 ; basic drawing functions
-	include "graphics.inc"	 ; graphic data
-	include "collisions.inc" ; helper for collision detections
+	include "world.asm"		 ; world creation functions
+	include "drawing.asm"	 ; basic drawing functions
+	include "graphics.asm"	 ; graphic data
+	include "collisions.asm" ; helper for collision detections
