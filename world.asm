@@ -44,32 +44,66 @@ _drawGround:
 ; Draw Dino sprite
 ;---------------------------------------------------------------------------
 
-; r1 = y (to screen)
-; r2 = sprite number
+; r1 = sprite number
 drawDino:
+    ; Move sprite number to r4
+    lr  A, 1
+    lr  4, A
+    
+    ; Set background color (clear)
+    li 	COLOR_BACKGROUND
+	lr  7, A
+
+	jmp _drawDinoSprite
+    
+; r1 = sprite number
+drawDinoWithoutBackground:
+    ; Move sprite number to r4
+    lr  A, 1
+    lr  4, A
+
+    ; Set background color (clear)
+    li 	COLOR_NONE
+	lr  7, A
+
+	jmp _drawDinoSprite
+    
+drawDinoBorder:
+    ; Set sprite
+    li  SPRITE_DINO_BORDER
+    lr 4, A
+
+    ; Set background color (clear)
+    li 	COLOR_NONE
+	lr  7, A
+
+	jmp _drawDinoSprite
+    
+; r1 = color
+; r4 = sprite number
+_drawDinoSprite:
 	lr 	k, p
+    
+    ; Set color
+    li 	COLOR_BLUE
+	lr  1, A
 	
-	; Variables
-	
-	lr A, 1
-	lr 3, A					; Set y position
-	
-	lr A, 2
-	lr 4, A					; Set sprite number
-	
-	; Consts
-	
-	li 	COLOR_BLUE
-	lr 	1, A				; Set color
-	
+    ; Set x position (const)
 	li 	DINO_X_POSITION
-	lr 	2, A				; Set x position
+	lr 	2, A				
+    
+    ; Set y position (variable)
+    SETISAR DINO_Y_REG
+    lr  A, S			
+    lr  3, A
 	
+    ; Set sprite width (const)
 	li 	DINO_SPRITE_WIDTH
-	lr 	5, A				; Set sprite width
+	lr 	5, A
 	
+    ; Set sprite height (const)
 	li	DINO_SPRITE_HEIGHT
-	lr	6, A				; Set sprite height
+	lr	6, A
 	
 	; r1 = color
 	; r2 = x (to screen)
@@ -85,32 +119,92 @@ drawDino:
 ; Draw Cactus sprite
 ;---------------------------------------------------------------------------
 
-; r1 = x (to screen)
-; r2 = sprite number
+; r1 = sprite number
 drawCactus:
-	lr k, p
+
+    ; Set x position (variable)
+    SETISAR CACTUS_X_REG
+	lr  A, S
+	lr  2, A
+
+    ; Move sprite number to r4
+    lr  A, 1
+    lr  4, A
+    
+    ; Set background color (clear)
+    li 	COLOR_BACKGROUND
+	lr  7, A
+
+	jmp _drawCactusSprite
+    
+; r1 = sprite number
+; r2 = x position
+drawCactusInPosition:
+    ; Move sprite number to r4
+    lr  A, 1
+    lr  4, A
+    
+    ; Set background color (clear)
+    li 	COLOR_BACKGROUND
+	lr  7, A
+
+	jmp _drawCactusSprite
+    
+; r1 = sprite number
+drawCactusWithoutBackground:
+
+    ; Set x position (variable)
+    SETISAR CACTUS_X_REG
+	lr  A, S
+	lr  2, A
+
+    ; Move sprite number to r4
+    lr  A, 1
+    lr  4, A
+
+    ; Set background color (clear)
+    li 	COLOR_NONE
+	lr  7, A
+
+	jmp _drawCactusSprite
+    
+drawCactusBorder:
+
+    ; Set x position (variable)
+    SETISAR CACTUS_X_REG
+	lr  A, S
+	lr  2, A
+    
+    ; Set sprite
+    li  SPRITE_CACTUS_BORDER
+    lr  4, A
+
+    ; Set background color (clear)
+    li 	COLOR_NONE
+	lr  7, A
+
+	jmp _drawCactusSprite
+
+; r1 = color
+; r4 = sprite number
+_drawCactusSprite:
+	lr  k, p
+    
+    ; Set color
+    li 	COLOR_GREEN
+	lr  1, A
 	
-	; Variables
-	
-	lr A, 2
-	lr 4, A					; Set sprite number
-	
-	lr A, 1
-	lr 2, A					; Set x position
-	
-	; Consts
-	
-	li 	COLOR_GREEN
-	lr 	1, A				; Set color
-	
+    ; Set y position (const)
 	li 	CACTUS_Y_POSITION
-	lr 	3, A				; Set x position
+	lr 	3, A
 	
+    ; Set sprite width (const)
 	li	CACTUS_SPRITE_WIDTH
-	lr	5, A				; Set sprite width
+	lr	5, A
 	
+    ; Set sprite height (const)
 	li	CACTUS_SPRITE_HEIGHT
-	lr	6, A				; Set sprite height
+	lr	6, A
 	
 	; r1 = color
 	; r2 = x (to screen)

@@ -10,14 +10,15 @@ sprites:
 	.word   gfx.dino.left           ; sprite 0
 	.word   gfx.dino.right          ; sprite 1
     .word   gfx.dino.border         ; sprite 2
+    .word   gfx.dino.clear          ; sprite 3
+
+	.word   gfx.cactus.clear        ; sprite 4
+	.word   gfx.cactus.0            ; sprite 5
+	.word   gfx.cactus.1            ; sprite 6
+	.word   gfx.cactus.2            ; sprite 7
+	.word   gfx.cactus.border       ; sprite 8
 	
-	.word   gfx.cactus.clear        ; sprite 3
-	.word   gfx.cactus.0            ; sprite 4
-	.word   gfx.cactus.1            ; sprite 5
-	.word   gfx.cactus.2            ; sprite 6
-	.word   gfx.cactus.border       ; sprite 7
-	
-	.word   gfx.bird.0              ; sprite 8
+	.word   gfx.bird.0              ; sprite 9
 
 ;---------------------------------------------------------------------------
 ; Dino Sprites
@@ -50,17 +51,30 @@ gfx.dino.right:
 	.byte   %00000000
     
 gfx.dino.border:
+	.byte   %00000000
 	.byte   %11111111
-	.byte   %10000001
 	.byte   %10000001
 	.byte   %10100101
 	.byte   %10000001
 	.byte   %10000001
 	.byte   %10011001
 	.byte   %10100101
-	.byte   %10000001
-	.byte   %10000001
+    .byte   %10000001
 	.byte   %11111111
+    .byte   %00000000
+    
+gfx.dino.clear:
+	.byte   %00000000
+	.byte   %00000000
+	.byte   %00000000
+	.byte   %00000000
+	.byte   %00000000
+	.byte   %00000000
+	.byte   %00000000
+	.byte   %00000000
+    .byte   %00000000
+	.byte   %00000000
+    .byte   %00000000
 	
 ;---------------------------------------------------------------------------
 ; Cactus Sprites
@@ -107,14 +121,14 @@ gfx.cactus.2:
 	.byte   %00011000
     
 gfx.cactus.border:
-	.byte   %11111111
-	.byte   %11000011
-	.byte   %10100101
-	.byte   %10011001
-	.byte   %10011001
-	.byte   %10100101
-	.byte   %11000011
-	.byte   %11111111
+	.byte   %01111110
+	.byte   %01000010
+	.byte   %01000010
+	.byte   %01000010
+	.byte   %01000010
+	.byte   %01000010
+	.byte   %01000010
+	.byte   %01111110
 	
 ;---------------------------------------------------------------------------
 ; Bird Sprites

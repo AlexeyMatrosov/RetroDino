@@ -48,6 +48,7 @@ _plotDelay:
 ; r4 = sprite number
 ; r5 = width
 ; r6 = height
+; r7 = background color (none or clear)
 
 sprite.draw:
 	; blit reference:
@@ -86,7 +87,7 @@ sprite.draw.addressLoop.end:
 	; load the colors
 	lr	A, 1
 	lr	2, A
-	li	$c0
+	lr  A, 7
 	lr	1, A
 
 	; draw the sprite

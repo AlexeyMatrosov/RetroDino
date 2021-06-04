@@ -80,36 +80,29 @@ _inputChecksEnd:
 	clr
 	lr S, A
 	
-	lr 1, A
-	
 	li SPRITE_CACTUS_CLEAR
-	lr 2, A
+	lr 1, A
+    
+    clr
+	lr  2, A
 	
-	pi drawCactus
+	pi drawCactusInPosition
 	
 _endclearcheck:
 	
 	; Dino 
-	SETISAR DINO_Y_REG
-	lr A, S			
-	lr 1, A			; Dino y
-	
 	SETISAR DINO_STATE_REG
 	lr A, S
 	ni %00000001
-	lr 2, A			; Select Dino sprite
+	lr 1, A			; Select Dino sprite
 	
 	pi drawDino
 	
 	; Draw cactus 0
 	
-	SETISAR CACTUS_X_REG
-	lr A, S
-	lr 1, A
-	
 	SETISAR CACTUS_CURRENT_SPRITE_REG
 	lr A, S
-	lr 2, A
+	lr 1, A
 	
 	pi drawCactus
 	
@@ -357,32 +350,52 @@ handleGameOver:
     lr S, A   
 __blipBorderInCycle:
     
-    ; Dino 
-	SETISAR DINO_Y_REG
-	lr A, S			
-	lr 1, A			; Dino y
-	
-	li SPRITE_DINO_BORDER
-	lr 2, A			
+    ; Empty sprite (Dino)
+	li  SPRITE_DINO_CLEAR
+	lr  1, A			
+	pi  drawDino
     
-	pi drawDino
+    ; Empty sprite (Cactus)
+	li  SPRITE_CACTUS_CLEAR
+	lr  1, A			
+	pi  drawCactus
     
-    li COLLISION_ANIMATION_DELAY
-    lr 5, A
-    pi BIOS_DELAY
+    ; Border without background
+    pi  drawCactusBorder
+    pi  drawDinoBorder
     
-	SETISAR CACTUS_X_REG
-	lr A, S
-	lr 1, A
-	
-	li SPRITE_CACTUS_BORDER
-	lr 2, A			
-	
-	pi drawCactus
+    ; Delay
+    li  COLLISION_ANIMATION_DELAY
+    lr  5, A
+    pi  BIOS_DELAY
     
-    li COLLISION_ANIMATION_DELAY
-    lr 5, A
-    pi BIOS_DELAY
+	; Empty sprite (Dino)
+	li  SPRITE_DINO_CLEAR
+	lr  1, A			
+	pi  drawDino
+    
+    ; Empty sprite (Cactus)
+	li  SPRITE_CACTUS_CLEAR
+	lr  1, A			
+	pi  drawCactus
+    
+    ; Cactus without background
+    SETISAR CACTUS_CURRENT_SPRITE_REG
+	lr  A, S
+	lr  1, A
+	pi  drawCactusWithoutBackground
+    
+    ; Dino without background
+    SETISAR DINO_STATE_REG
+	lr  A, S
+	ni  %00000001
+	lr  1, A
+    pi  drawDinoWithoutBackground
+    
+    ; Delay
+    li  COLLISION_ANIMATION_DELAY
+    lr  5, A
+    pi  BIOS_DELAY
     
     SETISAR GAME_OVER_CYCLE_REG
     lr A, S
@@ -397,5 +410,5 @@ __blipBorderInCycle:
 ;---------------------------------------------------------------------------
 	include "world.asm"		 ; world creation functions
 	include "drawing.asm"	 ; basic drawing functions
-	include "graphics.asm"	 ; graphic data
+	include "sprites.asm"	 ; graphic data
 	include "collisions.asm" ; helper for collision detections

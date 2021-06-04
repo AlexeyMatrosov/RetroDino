@@ -13,7 +13,7 @@ COLOR_RED           = $40
 COLOR_GREEN         = $00
 COLOR_BLUE          = $80
 COLOR_BACKGROUND    = $c0
-COLOR_CLEAR         = $ff
+COLOR_NONE         = $ff
 
 ; is used for BIOS_CLEAR_SCREEN (into r3)
 COLOR_CLEAR_TO_GRAY     = $d6
