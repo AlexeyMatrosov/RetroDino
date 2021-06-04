@@ -16,7 +16,7 @@ checkCollision:
 	as 3
 	com
 	inc
-	inc		; Decrease second rectangle size (simplification of the game)
+	inc     ; Decrease second rectangle size (simplification of the game)
 	as 5
 	ni	%10000000
 	bz __noCollision
@@ -26,7 +26,7 @@ checkCollision:
 	as 7
 	com
 	inc
-	inc		; Decrease second rectangle size (simplification of the game)
+	inc     ; Decrease second rectangle size (simplification of the game)
 	as 1
 	ni	%10000000
 	bz __noCollision
@@ -36,7 +36,7 @@ checkCollision:
 	as 4
 	com
 	inc
-	inc		; Decrease second rectangle size (simplification of the game)
+	inc     ; Decrease second rectangle size (simplification of the game)
 	as 6
 	ni	%10000000
 	bz __noCollision
@@ -46,7 +46,7 @@ checkCollision:
 	as 8
 	com
 	inc
-	inc		; Decrease second rectangle size (simplification of the game)
+	inc     ; Decrease second rectangle size (simplification of the game)
 	as 2
 	ni	%10000000
 	bz __noCollision

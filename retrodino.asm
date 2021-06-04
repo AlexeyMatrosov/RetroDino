@@ -13,60 +13,32 @@
 ; Program Entry
 ;===========================================================================
 
-	org $800
+    org $800
 	
 cartridgeStart:
-	.byte	$55					; valid cart indicator
-	nop							; unused byte
+    .byte   $55					; valid cart indicator
+    nop							; unused byte
 	
 cartridgeEntry:
-	li $c6						; $c6 - color palette, fill with gray.
-								; $d0 -- fill with green? If yes we can delete "drawGround" (~30b)
-	lr 3, A						; clear screen to grey
-	pi BIOS_CLEAR_SCREEN
-	
-	li 31
-	SETISAR DINO_Y_REG
-	lr S, A
-	
-	li TIMING_DINO_ANIMATION
-	SETISAR CLOCK_DINO_ANIMATION_REG
-	lr S, A
-	
-	li TIMING_DINO_MOVE
-	SETISAR CLOCK_DINO_MOVE_REG
-	lr S, A
-	
-	li TIMING_FIELD
-	SETISAR CLOCK_FIELD_REG
-	lr S, A
-	
-	li TIMING_BIRD
-	SETISAR CLOCK_BIRD_REG
-	lr S, A
-	
-	li CACTUS_START_POSITION
-	SETISAR CACTUS_X_REG
-	lr S, A
-	
-	li 110
-	SETISAR BIRD_X_REG
-	lr S, A
-	
-	li CACTUS_SPRITE_INDEX_START
-	SETISAR CACTUS_CURRENT_SPRITE_REG
-	lr S, A
-	
-	li DINO_JUMP_STATE_RUN
-	SETISAR DINO_JUMP_STATE_REG
-	lr S, A
-	
-	li 0
-	SETISAR DINO_JUMP_COUNTER_REG
-	lr S, A
-	
-	pi drawGround				; Draw game ground
-	pi drawSky					; Draw game sky
+    ; Clear screen
+    li  COLOR_CLEAR_TO_BLUE
+    lr  3, A
+    pi  BIOS_CLEAR_SCREEN
+    
+    ; Init ISAR
+    SET_TO_ISAR 31, DINO_Y_REG
+    SET_TO_ISAR TIMING_DINO_ANIMATION, CLOCK_DINO_ANIMATION_REG
+    SET_TO_ISAR TIMING_DINO_MOVE, CLOCK_DINO_MOVE_REG
+    SET_TO_ISAR TIMING_FIELD, CLOCK_FIELD_REG
+    SET_TO_ISAR TIMING_BIRD, CLOCK_BIRD_REG
+    SET_TO_ISAR CACTUS_START_POSITION, CACTUS_X_REG
+    SET_TO_ISAR 110, BIRD_X_REG
+    SET_TO_ISAR SPRITE_CACTUS_FIRST, CACTUS_CURRENT_SPRITE_REG
+    SET_TO_ISAR DINO_JUMP_STATE_RUN, DINO_JUMP_STATE_REG
+    SET_TO_ISAR 0, DINO_JUMP_COUNTER_REG
+
+    ; Draw game ground 
+    pi  drawGround
 	
 mainloop:
 
@@ -110,7 +82,7 @@ _inputChecksEnd:
 	
 	lr 1, A
 	
-	li 2
+	li SPRITE_CACTUS_CLEAR
 	lr 2, A
 	
 	pi drawCactus
@@ -332,10 +304,10 @@ processFieldClock:
 	lr A, S
 	inc
 	lr S, A
-	ci CACTUS_SPRITE_INDEX_END
+	ci SPRITE_CACTUS_LAST
 	bnz _cactusSpriteEnd
 	
-	li CACTUS_SPRITE_INDEX_START
+	li SPRITE_CACTUS_FIRST
 	lr S, A
 	
 _cactusSpriteEnd:
@@ -380,7 +352,46 @@ _processBirdClockEnd:
 ; Game over handler
 ;---------------------------------------------------------------------------
 handleGameOver:
-	WAIT_OF 20		; Wait around 2 seconds
+    li COLLISION_ANIMATION_CYCLES
+    SETISAR GAME_OVER_CYCLE_REG
+    lr S, A   
+__blipBorderInCycle:
+    
+    ; Dino 
+	SETISAR DINO_Y_REG
+	lr A, S			
+	lr 1, A			; Dino y
+	
+	li SPRITE_DINO_BORDER
+	lr 2, A			
+    
+	pi drawDino
+    
+    li COLLISION_ANIMATION_DELAY
+    lr 5, A
+    pi BIOS_DELAY
+    
+	SETISAR CACTUS_X_REG
+	lr A, S
+	lr 1, A
+	
+	li SPRITE_CACTUS_BORDER
+	lr 2, A			
+	
+	pi drawCactus
+    
+    li COLLISION_ANIMATION_DELAY
+    lr 5, A
+    pi BIOS_DELAY
+    
+    SETISAR GAME_OVER_CYCLE_REG
+    lr A, S
+    lr 1, A
+    ds 1
+    lr A, 1
+	lr S, A
+    bnz __blipBorderInCycle
+    
 	jmp cartridgeEntry
 
 ;---------------------------------------------------------------------------

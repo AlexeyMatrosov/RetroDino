@@ -7,97 +7,122 @@
 ;---------------------------------------------------------------------------
 
 sprites:
-	.word	gfx.dino.left					; sprite 0
-	.word	gfx.dino.right					; sprite 1
+	.word   gfx.dino.left           ; sprite 0
+	.word   gfx.dino.right          ; sprite 1
+    .word   gfx.dino.border         ; sprite 2
 	
-	.word	gfx.cactus.clear				; sprite 2
-	.word 	gfx.cactus.0					; sprite 3
-	.word 	gfx.cactus.1					; sprite 4
-	.word 	gfx.cactus.2					; sprite 5
+	.word   gfx.cactus.clear        ; sprite 3
+	.word   gfx.cactus.0            ; sprite 4
+	.word   gfx.cactus.1            ; sprite 5
+	.word   gfx.cactus.2            ; sprite 6
+	.word   gfx.cactus.border       ; sprite 7
 	
-	.word 	gfx.bird.0						; sprite 6
+	.word   gfx.bird.0              ; sprite 8
 
 ;---------------------------------------------------------------------------
 ; Dino Sprites
 ;---------------------------------------------------------------------------
 
 gfx.dino.left:
-	.byte	%00000000
-	.byte	%00001110
-	.byte	%01001111
-	.byte	%10001111
-	.byte	%11011100
-	.byte	%11111110
-	.byte	%11111101
-	.byte	%01111100
-	.byte	%00100110
-	.byte	%00110000
-	.byte	%00000000
+	.byte   %00000000
+	.byte   %00001110
+	.byte   %01001111
+	.byte   %10001111
+	.byte   %11011100
+	.byte   %11111110
+	.byte   %11111101
+	.byte   %01111100
+	.byte   %00100110
+	.byte   %00110000
+	.byte   %00000000
 	
 gfx.dino.right:
-	.byte	%00000000
-	.byte	%00001110
-	.byte	%01001111
-	.byte	%10001111
-	.byte	%11011100
-	.byte	%11111110
-	.byte	%11111101
-	.byte	%01111100
-	.byte	%00110100
-	.byte	%00000110
-	.byte	%00000000
+	.byte   %00000000
+	.byte   %00001110
+	.byte   %01001111
+	.byte   %10001111
+	.byte   %11011100
+	.byte   %11111110
+	.byte   %11111101
+	.byte   %01111100
+	.byte   %00110100
+	.byte   %00000110
+	.byte   %00000000
+    
+gfx.dino.border:
+	.byte   %11111111
+	.byte   %10000001
+	.byte   %10000001
+	.byte   %10100101
+	.byte   %10000001
+	.byte   %10000001
+	.byte   %10011001
+	.byte   %10100101
+	.byte   %10000001
+	.byte   %10000001
+	.byte   %11111111
 	
 ;---------------------------------------------------------------------------
 ; Cactus Sprites
 ;---------------------------------------------------------------------------
 
 gfx.cactus.clear:
-	.byte	%00000000
-	.byte	%00000000
-	.byte	%00000000
-	.byte	%00000000
-	.byte	%00000000
-	.byte	%00000000
-	.byte	%00000000
-	.byte	%00000000
+	.byte   %00000000
+	.byte   %00000000
+	.byte   %00000000
+	.byte   %00000000
+	.byte   %00000000
+	.byte   %00000000
+	.byte   %00000000
+	.byte   %00000000
 
 gfx.cactus.0:
-	.byte	%00001000
-	.byte	%00001000
-	.byte	%00011010
-	.byte	%01011100
-	.byte	%01011000
-	.byte	%00111000
-	.byte	%00011000
-	.byte	%00011000
+	.byte   %00001000
+	.byte   %00001000
+	.byte   %00011010
+	.byte   %01011100
+	.byte   %01011000
+	.byte   %00111000
+	.byte   %00011000
+	.byte   %00011000
 	
 gfx.cactus.1:
-	.byte	%00000000
-	.byte	%01000010
-	.byte	%01010010
-	.byte	%00111010
-	.byte	%00011010
-	.byte	%00011100
-	.byte	%00011000
-	.byte	%00011000
+	.byte   %00000000
+	.byte   %01000010
+	.byte   %01010010
+	.byte   %00111010
+	.byte   %00011010
+	.byte   %00011100
+	.byte   %00011000
+	.byte   %00011000
 	
 gfx.cactus.2:
-	.byte	%00000000
-	.byte	%00010000
-	.byte	%01010000
-	.byte	%00111010
-	.byte	%00011010
-	.byte	%00011100
-	.byte	%00011000
-	.byte	%00011000
+	.byte   %00000000
+	.byte   %00010000
+	.byte   %01010000
+	.byte   %00111010
+	.byte   %00011010
+	.byte   %00011100
+	.byte   %00011000
+	.byte   %00011000
+    
+gfx.cactus.border:
+	.byte   %11111111
+	.byte   %11000011
+	.byte   %10100101
+	.byte   %10011001
+	.byte   %10011001
+	.byte   %10100101
+	.byte   %11000011
+	.byte   %11111111
 	
 ;---------------------------------------------------------------------------
 ; Bird Sprites
 ;---------------------------------------------------------------------------
 
 gfx.bird.0:
-	.byte	%00000010
-	.byte	%00110100
-	.byte	%01111000
-	.byte	%00111110
-	.byte	%00010100
+	.byte   %00000010
+	.byte   %00110100
+	.byte   %01111000
+	.byte   %00111110
+	.byte   %00010100

@@ -9,7 +9,7 @@
 drawGround:
 	lr k, p
 	
-	li 64
+	li GROUND_START_Y
 	lr 5, A
 
 _drawGround:
@@ -32,43 +32,11 @@ _drawGround:
 	
 	pi point.draw
 	
-	ds 5
-	bnz _drawGround
-	
-	pk
-	
-	
-;---------------------------------------------------------------------------
-; Draw sky
-;---------------------------------------------------------------------------
-drawSky:
-	lr k, p
-	
-	li GROUND_START
+    lr A, 5
+    inc
 	lr 5, A
-
-_drawSky:
-	lr A, 5
-	lr 3, A
-
-	li 0
-	lr 1, A
-	
-	li 125
-	lr 2, A
-	
-	pi point.draw
-	
-	li $ff
-	lr 1, A
-	
-	li 126
-	lr 2, A
-	
-	pi point.draw
-	
-	ds 5
-	bnz _drawSky
+    ci GROUND_END_Y
+	bnz _drawGround
 	
 	pk
 	
